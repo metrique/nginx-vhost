@@ -122,7 +122,9 @@ mkdir $WWW_ROOT/$DOMAIN/ssl
 mkdir $WWW_ROOT/$DOMAIN/log
 
 echo "Welcome to $DOMAIN" > $WWW_ROOT/$DOMAIN/site/$PUBLIC_DIR/index.html
-if [ "$VHOST_CHOWN" = true] chown -R $VHOST_CHOWN_USER:$VHOST_CHOWN_GROUP $WWW_ROOT/$DOMAIN
+if [ "$VHOST_CHOWN" = true]; then
+	chown -R $VHOST_CHOWN_USER:$VHOST_CHOWN_GROUP $WWW_ROOT/$DOMAIN
+fi
 
 # Create vhost record from template
 sed -e "s;%WWW_ROOT%;$WWW_ROOT;" -e "s;%DOMAIN%;$DOMAIN;" -e "s;%PUBLIC_DIR%;$PUBLIC_DIR;" $VHOST_TEMPLATE > $VHOST_AVAILABLE/$DOMAIN.conf
