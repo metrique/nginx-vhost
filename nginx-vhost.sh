@@ -127,7 +127,7 @@ if [ "$VHOST_CHOWN" = true]; then
 fi
 
 # Create vhost record from template
-sed -e "s;%WWW_ROOT%;$WWW_ROOT;" -e "s;%DOMAIN%;$DOMAIN;" -e "s;%PUBLIC_DIR%;$PUBLIC_DIR;" $VHOST_TEMPLATE > $VHOST_AVAILABLE/$DOMAIN.conf
+sed -e "s;%WWW_ROOT%;$WWW_ROOT;" -e "s;%DOMAIN%;$DOMAIN;" -e "s;%PUBLIC_DIR%;$PUBLIC_DIR;" -e "s;%LOG_ROOT%;$LOG_ROOT;" $VHOST_TEMPLATE > $VHOST_AVAILABLE/$DOMAIN.conf
 # cp -prf $VHOST_AVAILABLE/$DOMAIN.conf $VHOST_ENABLED/$DOMAIN.conf
 ln -s $VHOST_AVAILABLE/$DOMAIN.conf $VHOST_ENABLED/$DOMAIN.conf
 
