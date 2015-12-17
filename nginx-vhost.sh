@@ -117,9 +117,7 @@ fi
 
 # Create Vhost directories
 mkdir -p $WWW_ROOT/$DOMAIN
-mkdir -p $WWW_ROOT/$DOMAIN/site/$PUBLIC_DIR
-mkdir $WWW_ROOT/$DOMAIN/ssl
-mkdir $WWW_ROOT/$DOMAIN/log
+mkdir -p $WWW_ROOT/$DOMAIN/$PUBLIC_DIR
 
 echo "Welcome to $DOMAIN" > $WWW_ROOT/$DOMAIN/site/$PUBLIC_DIR/index.html
 if [ "$VHOST_CHOWN" = true ]; then
