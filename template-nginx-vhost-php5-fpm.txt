@@ -1,4 +1,8 @@
 server {
+    server_name www.%DOMAIN%;
+    return 301 $scheme://%DOMAIN%$request_uri;
+}
+server {
 
 	server_name %DOMAIN%;
 	root %WWW_ROOT%/%DOMAIN%/%PUBLIC_DIR%;
@@ -22,19 +26,12 @@ server {
 	}
 
 	location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
+    	location = /robots.txt  { access_log off; log_not_found off; }
 
 	# removes trailing slashes (prevents SEO duplicate content issues)
 	if (!-d $request_filename)
 	{
 		rewrite ^/(.+)/$ /$1 permanent;
-	}
-
-	# enforce NO www
-	if ($host ~* ^www\.(.*))
-	{
-		set $host_without_www $1;
-		rewrite ^/(.*)$ $scheme://$host_without_www/$1 permanent;
 	}
 
 	# unless the request is for a valid file (image, js, css, etc.), send to bootstrap
