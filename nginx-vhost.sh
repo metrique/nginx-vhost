@@ -119,7 +119,7 @@ fi
 mkdir -p $WWW_ROOT/$DOMAIN
 mkdir -p $WWW_ROOT/$DOMAIN/$PUBLIC_DIR
 
-echo "Welcome to $DOMAIN" > $WWW_ROOT/$DOMAIN/site/$PUBLIC_DIR/index.html
+echo "Welcome to $DOMAIN" > $WWW_ROOT/$DOMAIN/$PUBLIC_DIR/index.html
 if [ "$VHOST_CHOWN" = true ]; then
 	chown -R $VHOST_CHOWN_USER:$VHOST_CHOWN_GROUP $WWW_ROOT/$DOMAIN
 fi
