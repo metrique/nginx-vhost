@@ -8,7 +8,7 @@ server {
 ## Use ssl as default (uncomment if required)
 #server {
 #        listen 80;
-#        server_name kaphe.co.uk;
+#        server_name %DOMAIN%;
 #        return 301 https://%DOMAIN%$request_uri;
 #}
 
