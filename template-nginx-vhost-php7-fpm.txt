@@ -27,7 +27,7 @@ server {
 # ssl_dhparam /etc/ssl/certs/dhparam.pem;
 #	ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
 #
-#	return 301 https://shinobicorp.com$request_uri;
+#	return 301 https://%DOMAIN%$request_uri;
 #}
 
 server {
