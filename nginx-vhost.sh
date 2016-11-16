@@ -20,7 +20,7 @@ VHOST_CHOWN_GROUP=ubuntu
 VHOST_ENABLED=/etc/nginx/sites-enabled
 
 # Place template in same directory as this script.
-VHOST_TEMPLATE=$BASE_DIR/template-nginx-vhost-php5-fpm.txt
+VHOST_TEMPLATE=$BASE_DIR/template-nginx-vhost-php7-fpm.txt
 
 # Vhost Directory Root.
 WWW_ROOT=/home/ubuntu/web
