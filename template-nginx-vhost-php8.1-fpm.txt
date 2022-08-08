@@ -1,0 +1,80 @@
+## www. to non www. redirect
+server {
+	listen 80;
+	server_name www.%DOMAIN%;
+	return 301 http://%DOMAIN%$request_uri;
+}
+
+server {
+
+	server_name %DOMAIN%;
+	root %WWW_ROOT%/%DOMAIN%/%PUBLIC_DIR%;
+  
+  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-XSS-Protection "1; mode=block";
+  add_header X-Content-Type-Options "nosniff";
+    
+	index index.php index.html;
+
+	# gzip
+	gzip on;
+	gzip_comp_level 2;
+	gzip_http_version 1.0;
+	gzip_proxied any;
+	gzip_min_length 1100;
+	gzip_buffers 16 8k;
+	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+	# Disable for IE < 6 because there are some known problems
+	gzip_disable "MSIE [1-6].(?!.*SV1)";
+
+	# Add a vary header for downstream proxies to avoid sending cached gzipped files to IE6
+	gzip_vary on;
+	
+	# serve static files directly
+	location ~* \.(css|gif|ico|html|jpg|jpeg|js|png|svg|txt)$ {
+		access_log off;
+		expires max;
+	}
+	location ~ /\.(?!well-known).* {
+    deny all;
+  }
+	location = /favicon.ico { access_log off; log_not_found off; }
+	location = /robots.txt  { access_log off; log_not_found off; }
+
+	# removes trailing slashes (prevents SEO duplicate content issues)
+	if (!-d $request_filename)
+	{
+		rewrite ^/(.+)/$ /$1 permanent;
+	}
+
+	# unless the request is for a valid file (image, js, css, etc.), send to PHP bootstrap
+	if (!-e $request_filename)
+	{
+		rewrite ^/(.*)$ /index.php?/$1 last;
+		break;
+	}
+
+	# Catch all errors
+	error_page 404 /index.php;
+
+	location ~ \.php$ {
+		try_files $uri = 404;
+		
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+		fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+		fastcgi_index index.php;
+		include fastcgi_params;
+		fastcgi_param SCRIPT_FILENAME %WWW_ROOT%/%DOMAIN%/%PUBLIC_DIR%/$fastcgi_script_name;
+		fastcgi_intercept_errors off;
+		fastcgi_buffer_size 16k;
+		fastcgi_buffers 4 16k;
+		fastcgi_connect_timeout 300;
+		fastcgi_send_timeout 300;
+		fastcgi_read_timeout 300;
+	}
+
+	access_log off;
+	error_log  %LOG_ROOT%/%DOMAIN%-error.log;
+}
